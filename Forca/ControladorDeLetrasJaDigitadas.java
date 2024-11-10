@@ -1,52 +1,58 @@
-public class ControladorDeLetrasJaDigitadas implements Cloneable
-{
+public class ControladorDeLetrasJaDigitadas implements Cloneable {
     private String letrasJaDigitadas;
 
-    public ControladorDeLetrasJaDigitadas ()
-    {
-        // torna this.letrasJaDigitadas igual ao String vazio
+    public ControladorDeLetrasJaDigitadas() {
+        this.letrasJaDigitadas = ""; 
     }
 
-    public boolean isJaDigitada (char letra)
-    {
-        // percorrer o String this.letrasJaDigitadas e verificar se ele
-        // possui a letra fornecida, retornando true em caso afirmativo
-        // ou false em caso negativo
+    public boolean isJaDigitada(char letra) {
+        return letrasJaDigitadas.indexOf(letra) != -1;
     }
 
-    public void registre (char letra) throws Exception
-    {
-		// verifica se a letra fornecida ja foi digitada (pode usar
-		// o método this.isJaDigitada, para isso), lancando uma exceção
-		// em caso afirmativo.
-		// concatena a letra fornecida a this.letrasJaDigitadas.
+    public void registre(char letra) throws Exception {
+        if (isJaDigitada(letra)) {
+            throw new Exception("Letra jÃ¡ digitada: " + letra);
+        }
+        letrasJaDigitadas += letra; 
     }
 
-    public String toString ()
-    {
-		// retorna um String com TODAS as letras presentes em
-		// this.letrasJaDigitadas separadas por vírgula (,).
+    public String toString() {
+        return String.join(",", letrasJaDigitadas.split(""));
     }
 
-    public boolean equals (Object obj)
-    {
-        // verificar se this e obj são iguais
+    public boolean equals(Object obj) {
+        if (obj==this) return true;
+        if (obj==null) return false;
+        if (!(obj.getClass()==this.getClass())) return false;
+
+        ControladorDeLetrasJaDigitadas Cl = (ControladorDeLetrasJaDigitadas) obj;
+
+        if (Cl.letrasJaDigitadas != this.letrasJaDigitadas) return false;
+
+        return true;
     }
 
-    public int hashCode ()
-    {
-        // calcular e retornar o hashcode de this
+    public int hashCode() {
+        int ret = 1;
+        ret = ret*2 + ((String)this.letrasJaDigitadas).hashCode();
+
+        if (ret<0) ret=-ret;
+
+        return ret;
     }
 
-    public ControladorDeLetrasJaDigitadas(
-    ControladorDeLetrasJaDigitadas controladorDeLetrasJaDigitadas)
-    throws Exception // construtor de cópia
-    {
-        // copiar c.letrasJaDigitadas em this.letrasJaDigitadas
+    public ControladorDeLetrasJaDigitadas(ControladorDeLetrasJaDigitadas controladorDeLetrasJaDigitadas) throws Exception {
+        if (controladorDeLetrasJaDigitadas == null) {
+            throw new Exception("Objeto nulo fornecido para cÃ³pia.");
+        }
+        this.letrasJaDigitadas = controladorDeLetrasJaDigitadas.letrasJaDigitadas;
     }
 
-    public Object clone ()
-    {
-        // criar uma cópia do this com o construtor de cópia e retornar
+    public Object clone() {
+        try {
+            return new ControladorDeLetrasJaDigitadas(this);
+        } catch (Exception e) {
+            return null; 
+        }
     }
 }

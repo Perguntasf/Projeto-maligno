@@ -1,64 +1,57 @@
-public class ControladorDeErros implements Cloneable
-{
-    private int qtdMax, qtdErr=0;
+public class ControladorDeErros implements Cloneable {
+    private int qtdMax, qtdErr = 0;
 
-    public ControladorDeErros (int qtdMax) throws Exception
-    {
-        // verifica se qtdMax fornecida não é positiva, lançando
-        // uma exceção.
-        // armazena qtdMax fornecida em this.qtdMax.
-        if (qtdMax<0) throw new Exception ("Quantidade invalida");
-
-        this.qtdMax=qtdMax;
+    public ControladorDeErros(int qtdMax) throws Exception {
+        if (qtdMax <= 0) throw new Exception("Quantidade invÃ¡lida");
+        this.qtdMax = qtdMax;
     }
 
-    public void registreUmErro () throws Exception
-    {
-        // verifica se this.qtdErr ja é igual a this.qtdMax,
-        // lançando excecao em caso positivo ou
-        // incrementando this.qtdErr em caso negativo
-        if (this.qtdErr==this.qtdMax) throw new Exception ("Errou alem do maximo");
-
+    public void registreUmErro() throws Exception {
+        if (this.qtdErr == this.qtdMax) throw new Exception("Errou alÃ©m do mÃ¡ximo");
         this.qtdErr++;
     }
 
-    public boolean isAtingidoMaximoDeErros  ()
-    {
-        // returna true se this.qtdErr for igual a this.qtdMax,
-        // ou então false, caso contrario.
-        /*
-        if (this.qtdErr==this.qtdMax)
-            return true;
-        else
-            return false;
-        */
-
-        return this.qtdErr==this.qtdMax;
+    public boolean isAtingidoMaximoDeErros() {
+        return this.qtdErr == this.qtdMax;
     }
 
-    public String toString ()
-    {
+    public String toString() {
         return this.qtdErr + "/" + this.qtdMax;
     }
 
-    public boolean equals (Object obj)
-    {
-        // verificar se this e obj possuem o mesmo conteúdo, retornando
-        // true no caso afirmativo ou false no caso negativo
+    public boolean equals(Object obj) {
+        if (obj==this) return true;
+        if (obj==null) return false;
+        if (!(obj.getClass()==this.getClass())) return false;
+
+
+        ControladorDeErros Ce = (ControladorDeErros) obj;
+
+        if (Ce.qtdErr != this.qtdErr) return false;
+
+        return true;
     }
 
-    public int hashCode ()
-    {
-        // calcular e retornar o hashcode de this
+    public int hashCode() {
+        int ret = 1;
+        ret = ret*2 + ((Integer)this.qtdErr).hashCode();
+
+        if (ret<0) ret=-ret;
+
+        return ret;
     }
 
-    public ControladorDeErros (ControladorDeErros c) throws Exception // construtor de cópia
-    {
-        // copiar c.qtdMax e c.qtdErr, respectivamente em, this.qtdMax e this.qtdErr
+    public ControladorDeErros(ControladorDeErros c) throws Exception {
+        if (c == null) throw new Exception("Objeto nulo fornecido para cÃ³pia.");
+        this.qtdMax = c.qtdMax;
+        this.qtdErr = c.qtdErr;
     }
 
-    public Object clone ()
-    {
-        // returnar uma cópia de this
+    public Object clone() {
+        try {
+            return new ControladorDeErros(this);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
